@@ -1,4 +1,15 @@
 Rails.application.routes.draw do
+  root 'home#default'
+  
+  get 'home/default'
+  get 'home/about'
+  get 'home/update'
+  get 'home/contact_us'
+  get 'home/iframe_example'
+  get 'home/ajax_example'
+  
+  
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

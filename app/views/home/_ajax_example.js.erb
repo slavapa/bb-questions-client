@@ -1,0 +1,53 @@
+<script type="text/javascript">
+    ClientQuestionMonitorLibrary = {};
+     
+    (function (ClientQuestionMonitorLibrary) {
+        
+        var _ws = null;
+         
+        ClientQuestionMonitorLibrary.onMessage = function (data) {
+            if ((/true/i).test(data.approved)){
+                if ($("#question-cont-" + data.id).length == 0){
+                    $('#questions-inner-cont').prepend("<div id='question-cont-" + data.id + "' class='panel panel-default'><div class='panel-heading'>" + data.name + " From " + data.from + "</div><div class='panel-body'>" + data.question + "</div></div>");
+                        return $('#chat-text').stop().animate({
+                        scrollTop: $('#chat-text')[0].scrollHeight
+                    }, 800);
+                }
+            }
+            else{
+                if (data.id){
+                    $("#question-cont-" + data.id).remove();
+                }
+            }
+        };
+        
+        
+         
+        ClientQuestionMonitorLibrary.createWebsocket = function (parentCont) {
+            var ws = Socket.createWebsocket();
+        
+            ws.onmessage = function(message) {
+                var data;
+                data = JSON.parse(message.data);
+                
+                ClientQuestionMonitorLibrary.onMessage(data);
+            };
+            
+            _ws = ws;
+           
+            return ws;
+        }
+        
+       
+       
+       
+    }(ClientQuestionMonitorLibrary = ClientQuestionMonitorLibrary || {}));
+    
+    $( document ).ready(function() {
+        alert(1);
+        ClientQuestionMonitorLibrary.createWebsocket();
+         alert(2);
+    });
+
+</script>
+
