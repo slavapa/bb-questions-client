@@ -15,15 +15,19 @@
 (function (Socket) {
   Socket.createWebsocket = function() {
     var attempts = 1;
-    var scheme = "wss://";
+    var scheme = "ws://";
     //var uri = scheme + window.document.location.host + '/';
-    var uri = scheme + "http://bb-questions.herokuapp.com/"; //"http://bb-questions-slavapa.c9users.io/"
+    var uri = scheme + "bb-questions.herokuapp.com/"; //"http://bb-questions-slavapa.c9users.io/"
     var ws = new WebSocket(uri);
     
     ws.onopen = function() {
       return attempts = 1;
     };
     
+      ws.onmessage = function() {
+          console.log(event.data)
+      };
+
     ws.onclose = function() {
       return setTimeout(function() {
         attempts++;
